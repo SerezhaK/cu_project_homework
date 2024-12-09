@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Прогноз погоды по маршруту</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .form-container input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-container input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .weather-info {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .weather-info h2 {
+            color: #007bff;
+        }
+        .weather-info ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .weather-info li {
+            margin-bottom: 5px;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Прогноз неблагоприятных погодных условий по маршруту</h1>
+    <div class="form-container">
+        <form method="POST">
+            <label for="start_city">Начальный город:</label><br>
+            <input type="text" id="start_city" name="start_city" value="{{ start_city }}" required><br>
+
+            <label for="end_city">Конечный город:</label><br>
+            <input type="text" id="end_city" name="end_city" value="{{ end_city }}" required><br>
+
+            <input type="submit" value="Получить прогноз">
+        </form>
+    </div>
+
+    {% if result %}
+        {% if result.start_weather_info and result.end_weather_info %}
+            <div class="weather-info">
+                <h2>Погода в городе {{ result.start_weather_info.city }}:</h2>
+                <ul>
+                    <li>Текущая температура: {{ result.start_weather_info.current_temperature }}°C</li>
+                    <li>Погодные условия: {{ result.start_weather_info.weather_text }}</li>
+                    <li>Ветер: {{ result.start_weather_info.wind_speed }} км/ч</li>
+                    <li>Влажность: {{ result.start_weather_info.humidity }}%</li>
+                    <li>Давление: {{ result.start_weather_info.pressure }} бар</li>
+                    <li>Минимальная температура: {{ result.start_weather_info.min_temp }}°C</li>
+                    <li>Максимальная температура: {{ result.start_weather_info.max_temp }}°C</li>
+                    <li>Вероятность осадков: {{ result.start_weather_info.precipitation_probability }}%</li>
+                    <li><strong>{{ result.start_bad_weather }}</strong></li>
+                </ul>
+
+                <h2>Погода в городе {{ result.end_weather_info.city }}:</h2>
+                <ul>
+                    <li>Текущая температура: {{ result.end_weather_info.current_temperature }}°C</li>
+                    <li>Погодные условия: {{ result.end_weather_info.weather_text }}</li>
+                    <li>Ветер: {{ result.end_weather_info.wind_speed }} км/ч</li>
+                    <li>Влажность: {{ result.end_weather_info.humidity }}%</li>
+                    <li>Давление: {{ result.end_weather_info.pressure }} бар</li>
+                    <li>Минимальная температура: {{ result.end_weather_info.min_temp }}°C</li>
+                    <li>Максимальная температура: {{ result.end_weather_info.max_temp }}°C</li>
+                    <li>Вероятность осадков: {{ result.end_weather_info.precipitation_probability }}%</li>
+                    <li><strong>{{ result.end_bad_weather }}</strong></li>
+                </ul>
+            </div>
+        {% else %}
+            <p>{{ result }}</p>
+        {% endif %}
+    {% endif %}
+
+    <footer>
+        <p>Введите названия начального и конечного города, чтобы получить информацию о погоде и неблагоприятных погодных условиях на вашем маршруте.</p>
+        <p>Cервис использует AccuWeather для предоставления актуальной информации</p>
+    </footer>
+
+</body>
+</html>

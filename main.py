@@ -8,6 +8,46 @@ app = Flask(__name__)
 load_dotenv()
 ACCUWEATHER_API_KEY = os.getenv("ACCUWEATHER_API_KEY")
 
+"""
+get requests:
+
+1. get_current_weather
+This function retrieves the current weather conditions for a specified location using its unique location_key.
+Parameters:
+    location_key: A string representing the unique identifier for a specific location.
+Process:
+    Constructs a request URL to access current weather conditions.
+    Sends a GET request to the AccuWeather API.
+    Parses the JSON response and returns the first element if data is available; otherwise, it returns None.
+
+2. get_geo_position_of_location
+This function finds the location key based on geographic coordinates (latitude and longitude).
+Parameters:
+    latitude: A float representing the latitude of the location.
+    longitude: A float representing the longitude of the location.
+Process:
+    Constructs a request URL to search for a city based on its geographic position.
+    Sends a GET request to the AccuWeather API.
+    Parses the JSON response and returns the location key if data is available; otherwise, it returns None.
+
+3. get_location
+This function retrieves the location key for a specified city name.
+Parameters:
+    city_name: A string representing the name of the city.
+Process:
+    Constructs a request URL to search for a city by name.
+    Sends a GET request to the AccuWeather API.
+    Parses the JSON response and returns the first element's key if data is available; otherwise, it returns None.
+
+4. get_weather_conditions
+This function retrieves the daily weather forecast for a specified location using its unique location_key.
+Parameters:
+    location_key: A string representing the unique identifier for a specific location.
+Process:
+    Constructs a request URL to access daily forecast data.
+    Sends a GET request with parameters including API key and language settings.
+    Parses the JSON response and returns it if data is available; otherwise, it returns None.
+"""
 
 def get_current_weather(location_key):
     request_url = (
