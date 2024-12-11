@@ -73,10 +73,7 @@ def get_geo_position_of_location(latitude, longitude):
 
 
 def get_city_location(city_name):
-    request_url = (
-        f"https://dataservice.accuweather.com/locations/v1/cities/"
-        f"search?apikey={ACCUWEATHER_API_KEY}&q={city_name}&language={'ru'}"
-    )
+    request_url = f'http://dataservice.accuweather.com/locations/v1/cities/search?apikey={ACCUWEATHER_API_KEY}&q={city_name}&language={"ru"}'
     data = requests.get(request_url).json()
     if data:
         return data[0]["Key"]
